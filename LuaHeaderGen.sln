@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuaHeaderGenLib", "LuaHeaderGenLib\LuaHeaderGenLib.csproj", "{86AC4B84-BF29-4870-B33B-9B038C4A9F10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaHeaderGenCmd", "LuaHeaderGenCmd\LuaHeaderGenCmd.csproj", "{D8A5ADC0-877C-4250-9FF6-09C68FC39C3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaHeaderGenTests", "LuaHeaderGenTests\LuaHeaderGenTests.csproj", "{98B48A18-8579-4889-8016-A42A2C0FBA9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86AC4B84-BF29-4870-B33B-9B038C4A9F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AC4B84-BF29-4870-B33B-9B038C4A9F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AC4B84-BF29-4870-B33B-9B038C4A9F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AC4B84-BF29-4870-B33B-9B038C4A9F10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A5ADC0-877C-4250-9FF6-09C68FC39C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A5ADC0-877C-4250-9FF6-09C68FC39C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A5ADC0-877C-4250-9FF6-09C68FC39C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A5ADC0-877C-4250-9FF6-09C68FC39C3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B48A18-8579-4889-8016-A42A2C0FBA9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B48A18-8579-4889-8016-A42A2C0FBA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B48A18-8579-4889-8016-A42A2C0FBA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B48A18-8579-4889-8016-A42A2C0FBA9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C605B726-ED64-483C-B962-80F0EFC11BCB}
+	EndGlobalSection
+EndGlobal
