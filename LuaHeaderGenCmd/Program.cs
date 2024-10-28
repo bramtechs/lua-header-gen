@@ -1,18 +1,10 @@
 ﻿using LuaHeaderGenLib;
 
-namespace LuaHeaderGenCmd;
-internal class Program
+var generator = new LuaHeaderGenerator(new()
 {
-    static void Main(string[] args)
-    {
-        var generator = new LuaHeaderGenerator(new()
-        {
-            Files = ["C:\\dev\\breakout\\core\\breakout.hh"],
-            RawFileContents = ["test"],
-            OutputFile = "output.h"
-        });
+    Files = ["C:\\dev\\breakout\\core\\breakout.hh"],
+    RawFileContents = ["test"],
+    OutputFile = "output.h"
+});
 
-        generator.GenerateLuaHeaderCode();
-    }
-}
-
+generator.GenerateLuaHeaderCode();

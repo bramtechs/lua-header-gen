@@ -1,12 +1,13 @@
 ﻿using LuaHeaderGenLib.Domain;
+
 namespace LuaHeaderGenLib;
 
 public class LuaHeaderGenerator
 {
-    private readonly IDictionary<string, string> _sources = new Dictionary<string, string>();
+    private readonly Dictionary<string, string> _sources = [];
     private readonly Config _config;
 
-    private readonly ISet<Binding> _bindings = new HashSet<Binding>();
+    private readonly HashSet<Binding> _bindings = [];
 
     public LuaHeaderGenerator(Config config)
     {
@@ -27,7 +28,6 @@ public class LuaHeaderGenerator
 
         if (_sources.Count == 0)
             throw new GeneratorException("No files or raw file contents provided");
-
     }
 
     private string? StartsWithMacro(string line)

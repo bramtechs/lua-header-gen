@@ -1,5 +1,4 @@
 ﻿using LuaHeaderGenLib.Domain;
-using System.Text.RegularExpressions;
 
 namespace LuaHeaderGenLib;
 
@@ -7,14 +6,14 @@ public static partial class BindingBuilder
 {
     public static Binding Build(string line)
     {
-        line = RemoveDuplicateSpacing(line);
+        line = StringUtils.RemoveDuplicateSpacing(line);
 
         string[] segments = line.Split(" ");
         string returnType = segments[0];
         string[] splits = segments[1].Split("(");
         string name = splits[0];
 
-        List<(string, string)> arguments = new();
+        List<(string, string)> arguments = [];
         string parameterString = line[line.IndexOf('(')..(line.IndexOf(')') + 1)];
         if (parameterString.Contains(','))
         {
@@ -29,13 +28,4 @@ public static partial class BindingBuilder
 
         return new Binding(name, returnType, arguments);
     }
-
-    private static string RemoveDuplicateSpacing(string line)
-    {
-        return SpaceReducerRegex().Replace(line, " ");
-    }
-
-    [GeneratedRegex(@"\s+")]
-    private static partial Regex SpaceReducerRegex();
 }
-

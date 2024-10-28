@@ -1,12 +1,10 @@
-﻿using System.Text.RegularExpressions;
-
-namespace LuaHeaderGenLib.Domain;
+﻿namespace LuaHeaderGenLib.Domain;
 
 public class Binding
 {
     public string Name { get; private set; }
     public string ReturnType { get; private set; }
-    private List<(string, string)> _arguments = [];
+    private readonly List<(string, string)> _arguments = [];
 
     public Binding(string name, string returnType, List<(string, string)> arguments)
     {
@@ -14,6 +12,8 @@ public class Binding
         ReturnType = returnType;
         _arguments = arguments;
     }
+
+    public IEnumerable<(string, string)> GetArguments() => _arguments;
 
     public (string, string) GetArgument(string name) => _arguments.First(arg => arg.Item2 == name);
 
