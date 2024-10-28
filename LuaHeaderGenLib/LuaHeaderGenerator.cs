@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Net.Http.Headers;
-using System.Runtime.ConstrainedExecution;
-using System.Xml.Linq;
+﻿using LuaHeaderGenLib.Domain;
 namespace LuaHeaderGenLib;
 
 public class LuaHeaderGenerator
@@ -61,7 +58,7 @@ public class LuaHeaderGenerator
 
             try
             {
-                Binding binding = new(line);
+                Binding binding = BindingBuilder.Build(line);
                 _bindings.Add(binding);
             }
             catch (Exception e)

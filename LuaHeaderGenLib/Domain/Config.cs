@@ -1,4 +1,4 @@
-﻿namespace LuaHeaderGenLib;
+﻿namespace LuaHeaderGenLib.Domain;
 public class Config
 {
     public string[] Files { get; set; } = [];
