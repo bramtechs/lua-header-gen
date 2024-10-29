@@ -1,6 +1,8 @@
 # Lua Header Generator
 
-Convert C++/C files to Lua header files.
+Convert C++/C header files to Lua headers. For supporting linting and autocompletion of custom bindings in text editors.
+
+> Internal tool, work in progress.
 
 ## Current functionality
 
@@ -9,14 +11,14 @@ raylib.h:
 RLAPI void DrawRectangle(int posX, int posY, int width, int height, Color color);                        // Draw a color-filled rectangle
 RLAPI void DrawRectangleV(Vector2 position, Vector2 size, Color color);                                  // Draw a color-filled rectangle (Vector version)
 RLAPI void DrawRectangleRec(Rectangle rec, Color color);                                                 // Draw a color-filled rectangle
-RLAPI void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);                 // Draw a color-filled rectangle with pro parameters                         // Draw rectangle outline with extended parameters
+RLAPI void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);                 // Draw a color-filled rectangle with pro parameters
 // -- snip --
-RLAPI void SetTextLineSpacing(int spacing);                                                 // Set vertical line spacing when drawing with line-breaks
-RLAPI int MeasureText(const char *text, int fontSize);                                      // Measure string width for default font
-RLAPI Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing);    // Measure string size for Font
-RLAPI int GetGlyphIndex(Font font, int codepoint);                                          // Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
-RLAPI GlyphInfo GetGlyphInfo(Font font, int codepoint);                                     // Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
-RLAPI Rectangle GetGlyphAtlasRec(Font font, int codepoint);                                 // Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
+RLAPI void SetTextLineSpacing(int spacing);                                                              // Set vertical line spacing when drawing with line-breaks
+RLAPI int MeasureText(const char *text, int fontSize);                                                   // Measure string width for default font
+RLAPI Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing);                 // Measure string size for Font
+RLAPI int GetGlyphIndex(Font font, int codepoint);                                                       // Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
+RLAPI GlyphInfo GetGlyphInfo(Font font, int codepoint);                                                  // Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
+RLAPI Rectangle GetGlyphAtlasRec(Font font, int codepoint);                                              // Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
 ```
 turns into raylib.lua:
 ```lua
@@ -99,5 +101,3 @@ end
 function GetGlyphAtlasRec(font, codepoint)
 end
 ```
-
-Lua autocomplete and linting in the text editor. Hurray!
