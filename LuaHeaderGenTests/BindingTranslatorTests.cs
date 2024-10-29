@@ -18,6 +18,31 @@ internal class BindingTranslatorTests
             --- @param w number
             --- @param h number
             --- @param color Color
+            --- @return nil
+            function DrawRectangle(x, y, w, h, color)
+            end
+            """);
+
+        Binding binding = BindingBuilder.Build(header);
+        string actualLuaCode = new BindingTranslator(binding).Translate();
+        Assert.That(actualLuaCode, Is.EqualTo(luaCode));
+    }
+
+    [Test]
+    public void TestSimpleTranslationWithCommment()
+    {
+        string header = StringUtils.TrimMultiline("""
+            void DrawRectangle(int x, int y, int w, int h, Color color);             // Draw a color-filled rectangle
+            """);
+
+        string luaCode = StringUtils.TrimMultiline("""
+            --- Draw a color-filled rectangle
+            --- @param x number
+            --- @param y number
+            --- @param w number
+            --- @param h number
+            --- @param color Color
+            --- @return nil
             function DrawRectangle(x, y, w, h, color)
             end
             """);
@@ -63,4 +88,33 @@ internal class BindingTranslatorTests
         Binding binding = BindingBuilder.Build(header);
         Assert.That(new BindingTranslator(binding).TranslateFunction(), Is.EqualTo("function DrawRectangle(posX, posY, width, height, color)\nend"));
     }
+
+    [Test]
+    public void TestDocumentPointerParameter()
+    {
+        string header = "bool ExportWave(Wave wave, const char *fileName);";
+        Binding binding = BindingBuilder.Build(header);
+        string luaCode = new BindingTranslator(binding).Translate();
+        string expected = StringUtils.TrimMultiline("""
+            --- @param wave Wave
+            --- @param fileName string
+            --- @return boolean
+            function ExportWave(wave, fileName)
+            end
+            """);
+        Assert.That(luaCode, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void TestFunctionWithNoReturnTypeShouldFail()
+    {
+        AssertUtils.ThrowsAny(() =>
+        {
+            string line = "DrawRectangle(int posX, int posY, int width, int height, Color color);";
+            Binding binding = BindingBuilder.Build(line);
+            new BindingTranslator(binding).Translate();
+        });
+    }
+
+    // TODO: handle syntax errors
 }

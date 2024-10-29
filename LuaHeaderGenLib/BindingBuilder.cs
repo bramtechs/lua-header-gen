@@ -1,5 +1,4 @@
 ﻿using LuaHeaderGenLib.Domain;
-using System.Reflection.Metadata;
 
 namespace LuaHeaderGenLib;
 
@@ -13,6 +12,11 @@ public static partial class BindingBuilder
         string returnType = segments[0];
         string[] splits = segments[1].Split("(");
         string name = splits[0];
+
+        if (returnType.Contains('('))
+        {
+            throw new BindingBuilderException($"Return type is invalid, syntax error in line '{line}'?");
+        }
 
         List<(string, string)> arguments = [];
 
@@ -57,6 +61,16 @@ public static partial class BindingBuilder
                 ParseParameter(parameterStringNoParens);
             }
         }
-        return new Binding(name, returnType, arguments);
+
+        // check for comments
+        string comment = string.Empty;
+
+        int commentIndex = line.IndexOf("//");
+        if (commentIndex > 0)
+        {
+            comment = line[(commentIndex + 2)..].Trim();
+        }
+
+        return new Binding(name, returnType, arguments, comment);
     }
 }

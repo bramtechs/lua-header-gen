@@ -4,18 +4,19 @@ public class Binding
 {
     public string Name { get; private set; }
     public string ReturnType { get; private set; }
-    private readonly List<(string, string)> _arguments = [];
+    public List<(string, string)> Arguments { get; private set; }
 
-    public Binding(string name, string returnType, List<(string, string)> arguments)
+    public string Comment { get; private set; }
+
+    public Binding(string name, string returnType, List<(string, string)> arguments, string comment)
     {
         Name = name;
         ReturnType = returnType;
-        _arguments = arguments;
+        Arguments = arguments;
+        Comment = comment;
     }
 
-    public IEnumerable<(string, string)> GetArguments() => _arguments;
-
-    public (string, string) GetArgument(string name) => _arguments.First(arg => arg.Item2 == name);
+    public (string, string) GetArgument(string name) => Arguments.First(arg => arg.Item2 == name);
 
     public string GetArgumentType(string name) => GetArgument(name).Item1;
 }

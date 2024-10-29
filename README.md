@@ -2,88 +2,102 @@
 
 Convert C++/C files to Lua header files.
 
-TODO:
-- [ ] Document return type
-- [ ] Include code comments
-
 ## Current functionality
 
+raylib.h:
 ```c
 RLAPI void DrawRectangle(int posX, int posY, int width, int height, Color color);                        // Draw a color-filled rectangle
 RLAPI void DrawRectangleV(Vector2 position, Vector2 size, Color color);                                  // Draw a color-filled rectangle (Vector version)
 RLAPI void DrawRectangleRec(Rectangle rec, Color color);                                                 // Draw a color-filled rectangle
-RLAPI void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);                 // Draw a color-filled rectangle with pro parameters
-RLAPI void DrawRectangleGradientV(int posX, int posY, int width, int height, Color top, Color bottom);   // Draw a vertical-gradient-filled rectangle
-RLAPI void DrawRectangleGradientH(int posX, int posY, int width, int height, Color left, Color right);   // Draw a horizontal-gradient-filled rectangle
-RLAPI void DrawRectangleGradientEx(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight); // Draw a gradient-filled rectangle with custom vertex colors
-RLAPI void DrawRectangleLines(int posX, int posY, int width, int height, Color color);                   // Draw rectangle outline
-RLAPI void DrawRectangleLinesEx(Rectangle rec, float lineThick, Color color);                            // Draw rectangle outline with extended parameters
+RLAPI void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);                 // Draw a color-filled rectangle with pro parameters                         // Draw rectangle outline with extended parameters
+// -- snip --
+RLAPI void SetTextLineSpacing(int spacing);                                                 // Set vertical line spacing when drawing with line-breaks
+RLAPI int MeasureText(const char *text, int fontSize);                                      // Measure string width for default font
+RLAPI Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing);    // Measure string size for Font
+RLAPI int GetGlyphIndex(Font font, int codepoint);                                          // Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
+RLAPI GlyphInfo GetGlyphInfo(Font font, int codepoint);                                     // Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
+RLAPI Rectangle GetGlyphAtlasRec(Font font, int codepoint);                                 // Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
 ```
-turns into
+turns into raylib.lua:
 ```lua
+--- Draw a color-filled rectangle
 --- @param posX number
 --- @param posY number
 --- @param width number
 --- @param height number
 --- @param color Color
+--- @return nil
 function DrawRectangle(posX, posY, width, height, color)
 end
 
+--- Draw a color-filled rectangle (Vector version)
 --- @param position Vector2
 --- @param size Vector2
 --- @param color Color
+--- @return nil
 function DrawRectangleV(position, size, color)
 end
 
+--- Draw a color-filled rectangle
 --- @param rec Rectangle
 --- @param color Color
+--- @return nil
 function DrawRectangleRec(rec, color)
 end
 
+--- Draw a color-filled rectangle with pro parameters
 --- @param rec Rectangle
 --- @param origin Vector2
 --- @param rotation number
 --- @param color Color
+--- @return nil
 function DrawRectanglePro(rec, origin, rotation, color)
 end
 
---- @param posX number
---- @param posY number
---- @param width number
---- @param height number
---- @param top Color
---- @param bottom Color
-function DrawRectangleGradientV(posX, posY, width, height, top, bottom)
+// -- snip --
+
+--- Set vertical line spacing when drawing with line-breaks
+--- @param spacing number
+--- @return nil
+function SetTextLineSpacing(spacing)
 end
 
---- @param posX number
---- @param posY number
---- @param width number
---- @param height number
---- @param left Color
---- @param right Color
-function DrawRectangleGradientH(posX, posY, width, height, left, right)
+--- Measure string width for default font
+--- @param text string
+--- @param fontSize number
+--- @return number
+function MeasureText(text, fontSize)
 end
 
---- @param rec Rectangle
---- @param topLeft Color
---- @param bottomLeft Color
---- @param topRight Color
---- @param bottomRight Color
-function DrawRectangleGradientEx(rec, topLeft, bottomLeft, topRight, bottomRight)
+--- Measure string size for Font
+--- @param font Font
+--- @param text string
+--- @param fontSize number
+--- @param spacing number
+--- @return Vector2
+function MeasureTextEx(font, text, fontSize, spacing)
 end
 
---- @param posX number
---- @param posY number
---- @param width number
---- @param height number
---- @param color Color
-function DrawRectangleLines(posX, posY, width, height, color)
+--- Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found
+--- @param font Font
+--- @param codepoint number
+--- @return number
+function GetGlyphIndex(font, codepoint)
 end
 
---- @param rec Rectangle
---- @param lineThick number
---- @param color Color
-function DrawRectangleLinesEx(rec, lineThick, color)
+--- Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found
+--- @param font Font
+--- @param codepoint number
+--- @return GlyphInfo
+function GetGlyphInfo(font, codepoint)
+end
+
+--- Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found
+--- @param font Font
+--- @param codepoint number
+--- @return Rectangle
+function GetGlyphAtlasRec(font, codepoint)
 end
 ```
+
+Lua autocomplete and linting in the text editor. Hurray!
