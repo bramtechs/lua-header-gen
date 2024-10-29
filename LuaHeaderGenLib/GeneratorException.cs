@@ -1,6 +1,6 @@
 ﻿namespace LuaHeaderGenLib;
 
-public class GeneratorException : Exception
+internal class GeneratorException : Exception
 {
     public GeneratorException(string message, Exception e) : base(message)
     {

@@ -3,7 +3,7 @@ using LuaHeaderGenLib.Domain;
 
 namespace LuaHeaderGenTests;
 
-public class BindingTranslatorTests
+internal class BindingTranslatorTests
 {
     [Test]
     public void TestSimpleTranslation()

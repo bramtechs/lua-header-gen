@@ -18,7 +18,7 @@ public class LuaHeaderGenerator
             _sources.Add($"$raw{i}", rawFileContent);
         }
 
-        foreach (string filePath in config.Files)
+        foreach (string filePath in config.FilesOrDirectories)
         {
             if (!File.Exists(filePath))
                 throw new GeneratorException($"File {filePath} does not exist");

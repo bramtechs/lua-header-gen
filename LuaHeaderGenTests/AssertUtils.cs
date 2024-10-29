@@ -1,8 +1,8 @@
 ﻿namespace LuaHeaderGenTests;
 
-public static class AssertUtils
+internal static class AssertUtils
 {
-    public static void ThrowsAny(TestDelegate deleg)
+    internal static void ThrowsAny(TestDelegate deleg)
     {
         try
         {

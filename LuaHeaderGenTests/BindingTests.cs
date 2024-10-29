@@ -3,7 +3,7 @@ namespace LuaHeaderGenTests;
 using LuaHeaderGenLib;
 using LuaHeaderGenLib.Domain;
 
-public class BindingTests
+internal class BindingTests
 {
     [Test]
     public void TestSimpleBinding1()

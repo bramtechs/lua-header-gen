@@ -2,7 +2,7 @@
 
 namespace LuaHeaderGenTests;
 
-public class StringUtilsTests
+internal class StringUtilsTests
 {
     [Test]
     public void RemoveDuplicateSpacing()
