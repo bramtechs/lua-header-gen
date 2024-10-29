@@ -52,6 +52,21 @@ internal class BindingTests
     }
 
     [Test]
+    public void TestVariadicBinding()
+    {
+        Binding binding = BindingBuilder.Build("void TraceLog(int logLevel, const char *  text, ...);         // Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...)");
+        Assert.That(binding.GetArgumentType("logLevel"), Is.EqualTo("int"));
+        Assert.That(binding.GetArgumentType("text"), Is.EqualTo("char*"));
+    }
+
+    [Test]
+    public void TestBindingWithOneParameter()
+    {
+        Binding binding = BindingBuilder.Build("Model LoadModel(Model model);");
+        Assert.That(binding.GetArgumentType("model"), Is.EqualTo("Model"));
+    }
+
+    [Test]
     public void TestSyntaxThrows()
     {
         AssertUtils.ThrowsAny(() =>

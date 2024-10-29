@@ -1,5 +1,5 @@
-﻿using CommandLine;
-using LuaHeaderGenLib;
+﻿using LuaHeaderGenLib;
+using Newtonsoft.Json;
 
 namespace LuaHeaderGenCmd
 {
@@ -7,27 +7,29 @@ namespace LuaHeaderGenCmd
     {
         public class Options
         {
-            [Option('f', "files", Required = true, HelpText = "Files or directories")]
-            public string[] Files { get; set; }
-
-            [Option('o', "output", Required = true, HelpText = "Lua file to output")]
-            public string Output { get; set; }
-
-            [Option('e', "extensions", Required = false, HelpText = "Extensions filter")]
-            public string[] Extensions { get; set; }
+            public string[]? files;
+            public string? output;
+            public string[]? macros;
+            public string[]? extensions;
         }
 
         public static void StartWithOptions(Options options)
         {
             try
             {
+                string outputFile = options.output ?? throw new MissingFieldException("Output file not specified");
                 var generator = new LuaHeaderGenerator(new()
                 {
-                    FilesOrDirectories = options.Files,
-                    Extensions = options.Extensions,
-                    OutputFile = options.Output,
+                    FilesOrDirectories = options.files ?? [],
+                    Extensions = options.extensions ?? [],
+                    Macros = options.macros ?? [],
+                    OutputFile = outputFile,
                 });
-                generator.GenerateLuaHeaderCode();
+                string code = generator.GenerateLuaHeaderCode();
+                File.WriteAllText(outputFile, code);
+
+                string absoluteOutputFile = Path.GetFullPath(outputFile);
+                Console.WriteLine($"Generated Lua header code to {absoluteOutputFile}");
             }
             catch (Exception e)
             {
@@ -37,27 +39,30 @@ namespace LuaHeaderGenCmd
             Environment.Exit(0);
         }
 
-        public static void HandleArgumentError(IEnumerable<Error> errors)
-        {
-            Console.Error.WriteLine("Failed to run LuaHeaderGen:");
-            foreach (var error in errors)
-            {
-                Console.Error.WriteLine(error);
-            }
-            Environment.Exit(1);
-        }
-
         public static void NormalMain(string[] args)
         {
             if (args.Length == 0)
             {
-                Console.Error.WriteLine("No arguments passed");
-                return;
+                Console.WriteLine("Usage: LuaHeaderGenCmd.exe <path to json file>");
+                Environment.Exit(1);
             }
 
-            Parser.Default.ParseArguments<Options>(args)
-                       .WithParsed(StartWithOptions)
-                       .WithNotParsed(HandleArgumentError);
+            try
+            {
+                var jsonFile = args[^1] ?? throw new Exception("No JSON file specified");
+                var jsonText = File.ReadAllText(jsonFile);
+                var options = JsonConvert.DeserializeObject<Options>(jsonText) ?? throw new Exception("Failed to deserialize JSON");
+
+                // migrate to new config
+                string configDir = Path.GetDirectoryName(jsonFile) ?? throw new Exception("Could not determine directory of json config");
+                Directory.SetCurrentDirectory(configDir);
+
+                StartWithOptions(options);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine($"JSON config load error: {e.Message}");
+            }
         }
 
         public static void Main(string[] args)
@@ -65,9 +70,10 @@ namespace LuaHeaderGenCmd
             if (false)
             {
                 NormalMain(args);
-            } else
+            }
+            else
             {
-                NormalMain(["--help"]);
+                NormalMain(["C:\\dev-new\\howling\\lua_header_gen.json"]);
             }
         }
     }

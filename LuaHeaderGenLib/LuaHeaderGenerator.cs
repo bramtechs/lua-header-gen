@@ -11,7 +11,9 @@ public class LuaHeaderGenerator
 
     public LuaHeaderGenerator(Config config)
     {
-        _config = config;
+        ConfigResolver resolver = new(config);
+        _config = resolver.ValidateAndResolve();
+
         for (int i = 0; i < config.RawFileContents.Length; i++)
         {
             string rawFileContent = config.RawFileContents[i];
@@ -32,7 +34,7 @@ public class LuaHeaderGenerator
 
     private string? StartsWithMacro(string line)
     {
-        foreach (string macro in _config.LuaMacros)
+        foreach (string macro in _config.Macros)
         {
             if (line.StartsWith(macro))
             {
@@ -52,7 +54,7 @@ public class LuaHeaderGenerator
 
             var macro = StartsWithMacro(line);
             if (macro == null)
-                return;
+                continue;
 
             line = line[macro.Length..].Trim();
 
@@ -65,8 +67,6 @@ public class LuaHeaderGenerator
             {
                 throw new GeneratorException($"Failed to parse line {i} in file {filePath}: {line}", e);
             }
-
-            Console.WriteLine(line);
         }
     }
 
@@ -76,6 +76,6 @@ public class LuaHeaderGenerator
         {
             ParseFile(source, filePath);
         }
-        return "";
+        return string.Join("\n\n", _bindings.Select(binding => new BindingTranslator(binding).Translate()));
     }
 }

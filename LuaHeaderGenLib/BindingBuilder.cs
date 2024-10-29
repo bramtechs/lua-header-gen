@@ -1,4 +1,5 @@
 ﻿using LuaHeaderGenLib.Domain;
+using System.Reflection.Metadata;
 
 namespace LuaHeaderGenLib;
 
@@ -14,18 +15,45 @@ public static partial class BindingBuilder
         string name = splits[0];
 
         List<(string, string)> arguments = [];
-        string parameterString = line[line.IndexOf('(')..(line.IndexOf(')') + 1)];
-        if (parameterString.Contains(','))
+
+        void ParseParameter(string parameter)
         {
-            string parameterStringNoParens = parameterString[1..(parameterString.Length - 1)];
-            string[] parameters = parameterStringNoParens.Split(", ");
-            foreach (string parameter in parameters)
-            {
-                string[] typeAndName = parameter.Trim().Split(" ");
-                arguments.Add((typeAndName[0], typeAndName[1]));
-            }
+            string param = parameter.Trim();
+
+            // dont care about variadic arguments
+            if (param == "...")
+                return;
+
+            // const is irrelevant
+            param = parameter.Replace("const", "");
+
+            // stick * to the type
+            param = param.Replace(" *", "* ");
+
+            param = StringUtils.RemoveDuplicateSpacing(param).Trim();
+
+            string[] typeAndName = param.Split(" ");
+            arguments.Add((typeAndName[0], typeAndName[1]));
         }
 
+        string parameterString = line[line.IndexOf('(')..(line.IndexOf(')') + 1)];
+        string parameterStringNoParens = parameterString[1..(parameterString.Length - 1)];
+
+        if (parameterStringNoParens.Length > 0)
+        {
+            if (parameterStringNoParens.Contains(',')) // multiple parameters
+            {
+                string[] parameters = parameterStringNoParens.Split(',');
+                foreach (string parameter in parameters)
+                {
+                    ParseParameter(parameter);
+                }
+            }
+            else // single parameter
+            {
+                ParseParameter(parameterStringNoParens);
+            }
+        }
         return new Binding(name, returnType, arguments);
     }
 }

@@ -35,7 +35,7 @@ public class BindingTranslator(Binding binding)
         {
             "int" or "float" or "double" => "number",
             "bool" => "boolean",
-            "std::string" => "string",
+            "std::string" or "const char*" or "const char *" => "string",
             _ => type,
         };
     }
