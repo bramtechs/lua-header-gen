@@ -67,6 +67,13 @@ internal class BindingTests
     }
 
     [Test]
+    public void TestBindingWithVoidParameter()
+    {
+        Binding binding = BindingBuilder.Build("void CloseWindow(void);");
+        Assert.That(binding.GetArguments().Count, Is.EqualTo(0));
+    }
+
+    [Test]
     public void TestSyntaxThrows()
     {
         AssertUtils.ThrowsAny(() =>

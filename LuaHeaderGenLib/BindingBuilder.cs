@@ -39,7 +39,10 @@ public static partial class BindingBuilder
         string parameterString = line[line.IndexOf('(')..(line.IndexOf(')') + 1)];
         string parameterStringNoParens = parameterString[1..(parameterString.Length - 1)];
 
-        if (parameterStringNoParens.Length > 0)
+        // void means no parameters
+        parameterStringNoParens = parameterStringNoParens.Replace("void", "");
+
+        if (parameterStringNoParens.Replace(" ", "").Length > 0)
         {
             if (parameterStringNoParens.Contains(',')) // multiple parameters
             {
