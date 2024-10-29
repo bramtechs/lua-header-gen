@@ -10,11 +10,11 @@ namespace LuaHeaderGenCmd
             [Option('f', "files", Required = true, HelpText = "Files or directories")]
             public string[] Files { get; set; }
 
-            [Option('e', "extensions", Required = false, HelpText = "Extensions filter")]
-            public string[] Extensions { get; set; }
-
             [Option('o', "output", Required = true, HelpText = "Lua file to output")]
             public string Output { get; set; }
+
+            [Option('e', "extensions", Required = false, HelpText = "Extensions filter")]
+            public string[] Extensions { get; set; }
         }
 
         public static void StartWithOptions(Options options)
@@ -47,7 +47,7 @@ namespace LuaHeaderGenCmd
             Environment.Exit(1);
         }
 
-        public static void Main(string[] args)
+        public static void NormalMain(string[] args)
         {
             if (args.Length == 0)
             {
@@ -55,10 +55,20 @@ namespace LuaHeaderGenCmd
                 return;
             }
 
-            Parser.Default.Settings.AutoHelp = true;
             Parser.Default.ParseArguments<Options>(args)
                        .WithParsed(StartWithOptions)
                        .WithNotParsed(HandleArgumentError);
+        }
+
+        public static void Main(string[] args)
+        {
+            if (false)
+            {
+                NormalMain(args);
+            } else
+            {
+                NormalMain(["--help"]);
+            }
         }
     }
 }
